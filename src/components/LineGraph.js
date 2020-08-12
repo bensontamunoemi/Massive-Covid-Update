@@ -16,7 +16,7 @@ const options = {
     mode: 'index',
     intersect: false,
     callbacks: {
-      lable: function (tooltipItem, data) {
+      label: function (tooltipItem, data) {
         return numeral(tooltipItem.value).format('+0,0');
       },
     },
@@ -37,6 +37,7 @@ const options = {
           display: false,
         },
         ticks: {
+          // Include a dollar sign in the ticks
           callback: function (value, index, values) {
             return numeral(value).format('0a');
           },
@@ -46,24 +47,24 @@ const options = {
   },
 };
 
-function LineGraph({ casesType = 'cases' }) {
-  const [data, setdata] = useState({});
-
-  const buildChartData = (data, casesType = 'cases') => {
-    let chartData = [];
-    let lastDataPoint;
-    for (let date in data.cases) {
-      if (lastDataPoint) {
-        let newDataPoint = {
-          x: date,
-          y: data[casesType][date] - lastDataPoint,
-        };
-        chartData.push(newDataPoint);
-      }
-      lastDataPoint = data[casesType][date];
+const buildChartData = (data, casesType) => {
+  let chartData = [];
+  let lastDataPoint;
+  for (let date in data.cases) {
+    if (lastDataPoint) {
+      let newDataPoint = {
+        x: date,
+        y: data[casesType][date] - lastDataPoint,
+      };
+      chartData.push(newDataPoint);
     }
-    return chartData;
-  };
+    lastDataPoint = data[casesType][date];
+  }
+  return chartData;
+};
+
+function LineGraph({ casesType }) {
+  const [data, setData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,29 +73,30 @@ function LineGraph({ casesType = 'cases' }) {
           return response.json();
         })
         .then(data => {
-          let chartData = buildChartData(data, 'cases');
-          setdata(chartData);
+          let chartData = buildChartData(data, casesType);
+          setData(chartData);
+          console.log(chartData);
+          // buildChart(chartData);
         });
     };
+
     fetchData();
   }, [casesType]);
 
   return (
     <div>
-      <h1>Im a graph</h1>
       {data?.length > 0 && (
         <Line
-          options={options}
           data={{
             datasets: [
               {
                 backgroundColor: 'rgba(204, 16, 52, 0.5)',
-                borderColor: '#cc1034',
+                borderColor: '#CC1034',
                 data: data,
               },
             ],
           }}
-          option
+          options={options}
         />
       )}
     </div>
