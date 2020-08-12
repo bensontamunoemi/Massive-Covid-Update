@@ -4,9 +4,6 @@ function Navigation() {
   return (
     <div
       style={{
-        backgroundColor: '#162447',
-        backgroundImage:
-          ' url(' + 'https://www.transparenttextures.com/patterns/xv.png' + ')',
         height: '95px',
         textAlign: 'center',
         color: '#e43f5a',
