@@ -60,4 +60,7 @@ body {
   .app__right {
     margin-top: 2rem;
   }
+  .app__left {
+    margin-top: 4rem;
+  }
 }
