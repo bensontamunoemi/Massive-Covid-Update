@@ -27,7 +27,7 @@ To run this project locally, follow these steps:
    ```
 2. Navigate to the project directory:
    ```bash
-   cd covid-19-tracker
+   cd massive-covid-update
    ```
 3. Install dependencies:
    ```bash
